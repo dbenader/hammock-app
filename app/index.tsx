@@ -19,22 +19,24 @@ export default function Landing() {
 
     return (
         <View style={styles.root}>
-            <SafeAreaView edges={["top"]}>
+            <SafeAreaView edges={["top"]} style={{padding: 18, flex: 1}}>
                 <Image source={require('@/assets/animations/cat-hammock.gif')} style={{height: 150, width: 150, alignSelf: 'center'}}/>
                 <ThemedText variant="bold" size={34} style={{alignSelf: 'center'}}>Hammock</ThemedText>
                 <View style={{flex: 1}}/>
-                <ThemedPressable>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 15, flex: 1 }}>
-                        <Image source={require('@/assets/images/google.png')} style={{ height: 20, width: 20 }} />
-                        <Text style={{ fontFamily: 'SpaceMonoBold', fontSize: 16, color: '#4b2810' }}>Continue with Google</Text>
+                <View style={{gap: 8}}>
+                    <ThemedPressable style={{height: 55}}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 15, flex: 1 }}>
+                            <Image source={require('@/assets/images/google.png')} style={{ height: 20, width: 20 }} />
+                            <Text style={{ fontFamily: 'SpaceMonoBold', fontSize: 16, color: '#4b2810' }}>Continue with Google</Text>
+                        </View>
+                    </ThemedPressable>
+                    <ThemedPressable style={{height: 55}}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 15, flex: 1 }}>
+                            <Image source={require('@/assets/images/apple.png')} style={{ height: 20, width: 20 }} />
+                            <Text style={{ fontFamily: 'SpaceMonoBold', fontSize: 16, color: '#4b2810' }}>Continue with Apple</Text>
                     </View>
-                </ThemedPressable>
-                <ThemedPressable>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 15, flex: 1 }}>
-                        <Image source={require('@/assets/images/apple.png')} style={{ height: 20, width: 20 }} />
-                        <Text style={{ fontFamily: 'SpaceMonoBold', fontSize: 16, color: '#4b2810' }}>Continue with Apple</Text>
-                  </View>
-                </ThemedPressable>
+                    </ThemedPressable>
+                </View>
             </SafeAreaView>
         </View>
     )

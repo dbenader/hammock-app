@@ -1,12 +1,11 @@
 import { useTheme } from '@react-navigation/native';
 import * as Haptics from 'expo-haptics';
-import LottieView from 'lottie-react-native';
-import React, { ReactNode } from 'react';
-import { Pressable, PressableProps, StyleProp, ViewStyle } from 'react-native';
+import { ReactNode } from 'react';
+import { ActivityIndicator, Pressable, PressableProps, StyleProp, ViewStyle } from 'react-native';
 import Animated, {
-    useAnimatedStyle,
-    useSharedValue,
-    withSpring,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
 } from 'react-native-reanimated';
 
 type Props = {
@@ -57,12 +56,7 @@ export const ThemedPressable = ({ children, onPress, style, loading=false, ...re
         {...rest}
       >
         {loading ? (
-            <LottieView
-                autoPlay
-                loop
-                source={require('@/assets/animations/food-loader.json')}
-                style={{height: 30, width: 30, alignSelf: 'center'}}
-            />
+            <ActivityIndicator size='small'/>
         ) : children}
       </Pressable>
     </Animated.View>
