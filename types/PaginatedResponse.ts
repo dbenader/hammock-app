@@ -1,0 +1,9 @@
+type PaginatedResponse<T> = {
+    content: T[];
+    totalElements: number;
+    totalPages: number;
+    size: number;
+    number: number;
+};
+
+export default PaginatedResponse;

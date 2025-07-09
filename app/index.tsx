@@ -1,20 +1,26 @@
 import { ThemedPressable } from "@/components/ThemedPressable";
 import { ThemedText } from "@/components/ThemedText";
-import { Colors } from "@/constants/Colors";
 import { useTheme } from "@react-navigation/native";
 import { Image } from 'expo-image';
+import { useRouter } from "expo-router";
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Landing() {
     const theme = useTheme();
+    const router = useRouter();
 
     const styles = StyleSheet.create({
         root: {
-            backgroundColor: Colors.light.background,
+            backgroundColor: theme.colors.background,
             flex: 1
         }
     })
+
+    const onPressContinue = () =>{
+        router.navigate('/transactions')
+    }
+    
 
 
     return (
@@ -30,7 +36,7 @@ export default function Landing() {
                             <Text style={{ fontFamily: 'SpaceMonoBold', fontSize: 16, color: '#4b2810' }}>Continue with Google</Text>
                         </View>
                     </ThemedPressable>
-                    <ThemedPressable style={{height: 55}}>
+                    <ThemedPressable style={{height: 55}} onPress={onPressContinue}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 15, flex: 1 }}>
                             <Image source={require('@/assets/images/apple.png')} style={{ height: 20, width: 20 }} />
                             <Text style={{ fontFamily: 'SpaceMonoBold', fontSize: 16, color: '#4b2810' }}>Continue with Apple</Text>
