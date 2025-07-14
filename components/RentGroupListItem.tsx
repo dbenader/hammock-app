@@ -1,8 +1,9 @@
 import { useAppTheme } from "@/hooks/useAppTheme";
+import RentGroup from "@/types/RentGroup";
 import RentGroupSummary from "@/types/RentGroupSummary";
-import { capitalizeFirst, formatUSD } from "@/util/lib";
-import { Image } from "expo-image";
-import { StyleSheet, View } from "react-native";
+import { formatUSD, shortenFrequency } from "@/util/lib";
+import { useRouter } from "expo-router";
+import { Pressable, StyleSheet, View } from "react-native";
 import Avatars from "./Avatars";
 import { ThemedText } from "./ThemedText";
 
@@ -12,35 +13,34 @@ type Props = {
 
 export default function RentGroupListItem({rentGroupSummary}: Props) {
     const theme = useAppTheme();
+    const router = useRouter();
     const styles = StyleSheet.create({
         root: {
             paddingHorizontal: theme.gutterPadding,
             paddingVertical: theme.spacing.xs,
             borderRadius: theme.borderRadius,
             borderBottomWidth: 1,
-            borderBottomColor: theme.colors.border
+            borderBottomColor: theme.colors.border,
+            justifyContent: 'center',
+            height: 90
         }
     });
+
+
+    const handleItemPress = (item: RentGroup) => {
+        router.navigate(`/tenants/group/${item.id}`);
+    };
+
     return (
-        <View style={styles.root}>
+        <Pressable onPress={()=>{}} style={({pressed}) => [styles.root, {backgroundColor: pressed ? 'rgba(255, 122, 83, 0.7)' : undefined, borderRadius: pressed ? theme.borderRadius : undefined}]}>
             <View style={{gap: theme.spacing.xs}}>
-                <ThemedText variant="bold" size={theme.fontSizes.small}>{rentGroupSummary.name}</ThemedText>
-                {rentGroupSummary.tenants.length > 0 && <Avatars names={rentGroupSummary.tenants.map(t => t.name)} size={theme.spacing.lg}/>}
-                <View style={{flexDirection: 'row', alignItems: 'center', gap: theme.spacing.sm, justifyContent: 'flex-end'}}>
-                    <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
-                        <View style={{height: theme.spacing.md, width: theme.spacing.md, backgroundColor: theme.colors.card, justifyContent: 'center', alignItems: 'center', borderRadius: theme.spacing.md/2}}>
-                            <Image source={require('@/assets/images/calendar.png')} style={{width: 15, height: 15}}/>
-                        </View>
-                        <ThemedText size={theme.fontSizes.xsmall} variant="bold">{capitalizeFirst(rentGroupSummary.paymentRule.frequency)}</ThemedText>
-                    </View>
-                    <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
-                        <View style={{height: theme.spacing.md, width: theme.spacing.md, backgroundColor: theme.colors.card, justifyContent: 'center', alignItems: 'center', borderRadius: theme.spacing.md/2}}>
-                            <Image source={require('@/assets/images/money-bag.png')} style={{width: 15, height: 15}}/>
-                        </View>
-                        <ThemedText size={theme.fontSizes.xsmall} variant="bold">{formatUSD(rentGroupSummary.paymentRule.amountCents / 100)}</ThemedText>
-                    </View>
-                </View>
+                {/* {rentGroupSummary.tenants.length > 0 && <Avatar group name="" size={theme.spacing.lg}/>} */}
+                 <ThemedText variant="bold" size={theme.fontSizes.small}>{rentGroupSummary.name}</ThemedText>
+                 <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                    {rentGroupSummary.tenants.length > 0 && <Avatars names={rentGroupSummary.tenants.map(t => t.name)} size={theme.spacing.md}/>}
+                    <ThemedText size={theme.fontSizes.xsmall}>{`${formatUSD(rentGroupSummary.paymentRule.amountCents / 100)}/${shortenFrequency(rentGroupSummary.paymentRule.frequency)}`}</ThemedText>
+                 </View>
             </View>
-        </View>
+        </Pressable>
     );
 }

@@ -4,6 +4,7 @@ import { useAppTheme } from "@/hooks/useAppTheme";
 import TransactionService from "@/services/TransactionService";
 import PaginatedResponse from "@/types/PaginatedResponse";
 import Transaction from "@/types/Transaction";
+import { formatUSD } from "@/util/lib";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { MenuView } from '@react-native-menu/menu';
 import * as Haptics from 'expo-haptics';
@@ -16,6 +17,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function Transactions() {
     const USER_ID = '69d5799e-2000-4d27-8465-0b8aad0b9311';
     let [transactions, setTransactions] = useState<PaginatedResponse<Transaction>>();
+    let [total, setTotal] = useState<number>(0);
     let [period, setPeriod] = useState<'yearly' | 'monthly' | 'weekly' | 'all time'>('monthly');
 
     useEffect(() => {
@@ -26,6 +28,8 @@ export default function Transactions() {
     const loadTransactions = async (period: 'yearly' | 'monthly' | 'weekly' | 'all time') => {
         try {
             let data = await TransactionService.listTransactions(period, USER_ID);
+            const total = data.content.reduce((sum, item) => sum + item.amountCents, 0);
+            setTotal(total / 100)
             setTransactions(data);
         } catch(error) {
             console.log('error', error)
@@ -48,6 +52,7 @@ export default function Transactions() {
         }
     })
 
+    
     return (
         <SafeAreaView edges={["top"]} style={styles.root}>
             <View style={styles.header}>
@@ -71,13 +76,13 @@ export default function Transactions() {
                         title: 'All Time'
                     }
                 ]}>
-                    <View style={{flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 8, backgroundColor: 'rgba(255, 122, 83, 0.3)', paddingHorizontal: 8, paddingVertical: 3, borderRadius: theme.borderRadius}}>
+                    <View style={{flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: 'rgba(255, 122, 83, 0.7)', paddingHorizontal: 8, paddingVertical: 3, borderRadius: theme.borderRadius}}>
                         <ThemedText variant="bold">Monthly</ThemedText>
                         <FontAwesome name="caret-down" size={20} color="black" />
                     </View>
                 </MenuView>
-                <View style={{alignItems:'flex-end'}}>
-                    <ThemedText variant="bold" size={theme.fontSizes.xlarge}>$14,564</ThemedText>
+                <View style={{alignItems:'flex-end', top: -5}}>
+                    <ThemedText variant="bold" size={theme.fontSizes.xlarge}>{formatUSD(total)}</ThemedText>
                     <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
                         <ThemedText>Collected</ThemedText>
                         <View style={{height: theme.spacing.md, width: theme.spacing.md, backgroundColor: theme.colors.card, justifyContent: 'center', alignItems: 'center', borderRadius: theme.spacing.md/2}}>

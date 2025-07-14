@@ -14,6 +14,10 @@ const TransactionService = {
         });
 
         return res.data;
+    },
+    getTransactionById: async (id: string) => {
+        const response = await api.get<Transaction>(`/transactions/${id}`);
+        return response.data
     }
 }
 

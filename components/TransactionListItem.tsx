@@ -1,6 +1,7 @@
 import { useAppTheme } from "@/hooks/useAppTheme";
 import Transaction from "@/types/Transaction";
 import dayjs from 'dayjs';
+import { useRouter } from "expo-router";
 import { Pressable, StyleSheet, View } from "react-native";
 import Avatar from "./Avatar";
 import { ThemedText } from "./ThemedText";
@@ -10,6 +11,7 @@ type Props = {
 }
 
 export default function TransactionListItem({transaction}: Props) {
+    const router = useRouter();
     const theme = useAppTheme();
     const styles = StyleSheet.create({
         root: {
@@ -18,6 +20,7 @@ export default function TransactionListItem({transaction}: Props) {
             borderBottomWidth: 1,
             borderColor: theme.colors.border,
             width: '100%',
+            justifyContent: 'center'
         }
     })
 
@@ -27,8 +30,12 @@ export default function TransactionListItem({transaction}: Props) {
         else return '⏱️';
     }
 
+    const onPressTransaction = (transactionId: string) => {
+        router.navigate(`/transactions/${transactionId}`);
+    }
+
     return (
-        <Pressable style={({pressed}) => [styles.root, {backgroundColor: pressed ? 'rgba(255, 122, 83, 0.3)' : undefined, borderRadius: pressed ? theme.borderRadius : undefined}]}>
+        <Pressable onPress={()=>onPressTransaction(transaction.id)} style={({pressed}) => [styles.root, {backgroundColor: pressed ? 'rgba(255, 122, 83, 0.7)' : undefined, borderRadius: pressed ? theme.borderRadius : undefined}]}>
             <View style={{flexDirection: 'row', alignItems: 'center', gap: theme.spacing.xs}}>
                 <Avatar size={theme.spacing.lg} name={transaction.tenantName}/>
                 <View style={{flex: 1}}>

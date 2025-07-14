@@ -1,34 +1,20 @@
 import { useAppTheme } from "@/hooks/useAppTheme";
 import getInitials from '@/util/lib';
+import { MaterialIcons } from "@expo/vector-icons";
 import { StyleSheet, View } from "react-native";
 import { ThemedText } from "./ThemedText";
 
 type Props = {
     name: string,
-    size: number
+    size: number,
+    group?: boolean
 }
 
 
-export default function Avatar({name, size}: Props) {
+export default function Avatar({name, size, group=false}: Props) {
     const theme = useAppTheme();
-    const { hsl: backgroundColor, lightness } = getHSLFromString(name);
-    const textColor = lightness < 50 ? '#fff' : '#000';
 
-    function getHSLFromString(str: string) {
-        let hash = 0;
-        for (let i = 0; i < str.length; i++) {
-            hash = str.charCodeAt(i) + ((hash << 5) - hash);
-        }
 
-        const hue = Math.abs(hash) % 360;
-        const saturation = 65;
-        const lightness = 55;
-
-        return {
-            hsl: `hsl(${hue}, ${saturation}%, ${lightness}%)`,
-            lightness,
-        };
-    }
 
     const styles = StyleSheet.create({
         root: {
@@ -50,7 +36,11 @@ export default function Avatar({name, size}: Props) {
 
     return (
         <View style={styles.root}>
-            <ThemedText variant="bold" style={styles.text}>{getInitials(name)}</ThemedText>
+            {group ? (
+                <MaterialIcons name="groups" size={18} color={theme.colors.text} />
+            ) : (
+                <ThemedText variant="bold" style={styles.text}>{getInitials(name)}</ThemedText>
+            )}
         </View>
     )
 }

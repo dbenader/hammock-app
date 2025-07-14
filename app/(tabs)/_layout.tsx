@@ -31,7 +31,7 @@ export default function TabLayout() {
             }} initialRouteName='transactions'>
             <Tabs.Screen name="transactions" 
             options={{
-                title: 'Transactions',
+                title: 'Income',
                 tabBarIcon: ({color}) => <MaterialIcons name="attach-money" size={24} color={color}/>
             }}/>
             <Tabs.Screen name="tenants"
