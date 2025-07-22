@@ -2,15 +2,15 @@ import { useAppTheme } from '@/hooks/useAppTheme';
 import * as Haptics from 'expo-haptics';
 import React, { ReactNode } from 'react';
 import {
-    GestureResponderEvent,
-    Pressable,
-    StyleProp,
-    ViewStyle
+  GestureResponderEvent,
+  Pressable,
+  StyleProp,
+  ViewStyle,
 } from 'react-native';
 import Animated, {
-    useAnimatedStyle,
-    useSharedValue,
-    withSpring,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
 } from 'react-native-reanimated';
 
 type Props = {
@@ -28,11 +28,11 @@ export const PressableSurface = ({ children, onPress, style }: Props) => {
   }));
 
   const handlePressIn = () => {
-    scale.value = withSpring(0.96, { damping: 10, stiffness: 200 });
+    scale.value = withTiming(0.95, { duration: 100 });
   };
 
   const handlePressOut = () => {
-    scale.value = withSpring(1, { damping: 10, stiffness: 200 });
+    scale.value = withTiming(1, { duration: 100 });
   };
 
   return (

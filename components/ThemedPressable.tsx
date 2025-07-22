@@ -5,7 +5,7 @@ import { ActivityIndicator, Pressable, PressableProps, StyleProp, ViewStyle } fr
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
-  withSpring,
+  withTiming,
 } from 'react-native-reanimated';
 
 type Props = {
@@ -14,7 +14,13 @@ type Props = {
   loading?: boolean;
 } & PressableProps;
 
-export const ThemedPressable = ({ children, onPress, style, loading=false, ...rest }: Props) => {
+export const ThemedPressable = ({
+  children,
+  onPress,
+  style,
+  loading = false,
+  ...rest
+}: Props) => {
   const scale = useSharedValue(1);
   const theme = useTheme();
 
@@ -23,11 +29,11 @@ export const ThemedPressable = ({ children, onPress, style, loading=false, ...re
   }));
 
   const handlePressIn = () => {
-    scale.value = withSpring(0.95, { damping: 10, stiffness: 200 });
+    scale.value = withTiming(0.95, { duration: 100 });
   };
 
   const handlePressOut = () => {
-    scale.value = withSpring(1, { damping: 10, stiffness: 200 });
+    scale.value = withTiming(1, { duration: 100 });
   };
 
   return (
@@ -36,14 +42,13 @@ export const ThemedPressable = ({ children, onPress, style, loading=false, ...re
         disabled={rest.disabled || loading}
         style={({ pressed }) => [
           {
-            backgroundColor: rest.disabled ? '#f1f1f1' : "rgba(255, 122, 83, 0.7)",
+            backgroundColor: rest.disabled ? '#f1f1f1' : 'rgba(255, 122, 83, 0.7)',
             borderRadius: 8,
             borderColor: '#4b2810',
             borderWidth: 2,
             alignItems: 'center',
             justifyContent: 'center',
             flexDirection: 'row',
-            // allow outer container to control layout
             flex: 1,
           },
         ]}
@@ -55,11 +60,8 @@ export const ThemedPressable = ({ children, onPress, style, loading=false, ...re
         onPressOut={handlePressOut}
         {...rest}
       >
-        {loading ? (
-            <ActivityIndicator size='small'/>
-        ) : children}
+        {loading ? <ActivityIndicator size="small" /> : children}
       </Pressable>
     </Animated.View>
   );
 };
-

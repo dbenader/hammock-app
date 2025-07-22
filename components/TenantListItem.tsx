@@ -1,17 +1,15 @@
 import { useAppTheme } from "@/hooks/useAppTheme";
-import RentGroup from "@/types/RentGroup";
-import RentGroupSummary from "@/types/RentGroupSummary";
+import { TenantWithPaymentRule } from "@/types/TenantWithPaymentRule";
 import { formatUSD, shortenFrequency } from "@/util/lib";
 import { useRouter } from "expo-router";
 import { Pressable, StyleSheet, View } from "react-native";
-import Avatars from "./Avatars";
 import { ThemedText } from "./ThemedText";
 
 type Props = {
-    rentGroupSummary: RentGroupSummary
+    tenant: TenantWithPaymentRule
 }
 
-export default function RentGroupListItem({rentGroupSummary}: Props) {
+export default function TenantListItem({tenant}: Props) {
     const theme = useAppTheme();
     const router = useRouter();
     const styles = StyleSheet.create({
@@ -27,20 +25,17 @@ export default function RentGroupListItem({rentGroupSummary}: Props) {
     });
 
 
-    const handleItemPress = (item: RentGroup) => {
-        router.navigate(`/tenants/group/${item.id}`);
-    };
 
     return (
         <Pressable onPress={()=>{}} style={({pressed}) => [styles.root, {backgroundColor: pressed ? 'rgba(255, 122, 83, 0.7)' : undefined, borderRadius: pressed ? theme.borderRadius : undefined}]}>
             <View style={{gap: theme.spacing.xs}}>
-                {/* {rentGroupSummary.tenants.length > 0 && <Avatar group name="" size={theme.spacing.lg}/>} */}
                 <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-                    <ThemedText variant="bold" size={theme.fontSizes.small}>{rentGroupSummary.name}</ThemedText>
-                    <ThemedText size={theme.fontSizes.xsmall}>{`${formatUSD(rentGroupSummary.paymentRule.amountCents / 100)}/${shortenFrequency(rentGroupSummary.paymentRule.frequency)}`}</ThemedText>
-                 </View>
-                 <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-                    {rentGroupSummary.tenants.length > 0 && <Avatars names={rentGroupSummary.tenants.map(t => t.name)} size={theme.spacing.lg}/>}
+                    <ThemedText variant="bold" size={theme.fontSizes.small}>{tenant.name}</ThemedText>
+                    <ThemedText size={theme.fontSizes.xsmall}>
+                    {tenant.paymentRule
+                        ? `${formatUSD(tenant.paymentRule.amountCents / 100)}/${shortenFrequency(tenant.paymentRule.frequency)}`
+                        : "No payment rule"}
+                    </ThemedText>
                  </View>
             </View>
         </Pressable>

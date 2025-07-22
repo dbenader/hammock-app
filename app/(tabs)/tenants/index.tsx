@@ -1,11 +1,11 @@
 import NewRentGroupModal from "@/components/NewRentGroupModal";
 import NewTenantModal from "@/components/NewTenantModal";
 import RentGroupListItem from "@/components/RentGroupListItem";
+import TenantListItem from "@/components/TenantListItem";
 import { ThemedText } from "@/components/ThemedText";
 import { useAppTheme } from "@/hooks/useAppTheme";
-import RentGroupService from "@/services/RentGroupService";
-import PaginatedResponse from "@/types/PaginatedResponse";
-import RentGroupSummary from "@/types/RentGroupSummary";
+import TenantService from "@/services/TenantService";
+import TenantListItemData from "@/types/TenantListItemData";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { MenuView } from "@react-native-menu/menu";
 import { useEffect, useState } from "react";
@@ -25,26 +25,27 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Tenants() {
     const theme = useAppTheme();
-    const [rentGroups, setRentGroups] = useState<PaginatedResponse<RentGroupSummary>>();
+    const [listItems, setListItems] = useState<TenantListItemData[]>([]);
     const [searchOpen, setSearchOpen] = useState(false);
     const searchWidth = useSharedValue(theme.spacing.lg);
     const [groupModalOpen, setGroupModalOpen] = useState<boolean>(false);
     const [tenantModalOpen, setTenantModalOpen] = useState<boolean>(false);
 
     useEffect(() => {
-        loadRentGroups();
+        loadListItems();
     }, []);
 
-    const loadRentGroups = async () => {
+    const loadListItems = async () => {
         try {
-            const data = await RentGroupService.listRentGroupsByUser(
-                "69d5799e-2000-4d27-8465-0b8aad0b9311"
-            );
-            setRentGroups(data);
-        } catch (e) {
-            console.error("Failed to load rent groups", e);
+            const data = await TenantService.getListItems(
+                 "69d5799e-2000-4d27-8465-0b8aad0b9311"
+            )
+            setListItems(data);
+            console.log('DATA', JSON.stringify(data, null, 2))
+        } catch (error) {
+            console.log('error', error)
         }
-    };
+    }
 
     const animatedSearchStyle = useAnimatedStyle(() => ({
         width: withTiming(searchWidth.value, { duration: 300 }),
@@ -177,10 +178,10 @@ export default function Tenants() {
             </View>
 
             <FlatList
-                data={rentGroups?.content}
-                keyExtractor={(item) => item.id}
+                data={listItems}
+                keyExtractor={(item) => item.type === 'GROUP' ? item.group.id : item.tenant.id}
                 renderItem={({ item }) => (
-                <RentGroupListItem rentGroupSummary={item} />
+                    item.type === 'GROUP' ? <RentGroupListItem rentGroupSummary={item.group} /> : <TenantListItem tenant={item.tenant}/>
                 )}
                 style={{ flex: 1 }}
             />
