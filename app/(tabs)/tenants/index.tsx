@@ -1,5 +1,6 @@
 import NewRentGroupModal from "@/components/NewRentGroupModal";
 import NewTenantModal from "@/components/NewTenantModal";
+import { PressableSurface } from "@/components/PressableSurface";
 import RentGroupListItem from "@/components/RentGroupListItem";
 import TenantListItem from "@/components/TenantListItem";
 import { ThemedText } from "@/components/ThemedText";
@@ -150,14 +151,13 @@ export default function Tenants() {
                         }
                     ]}>
 
-                        <View
+                        <PressableSurface
                         style={{
                             height: theme.spacing.lg,
                             width: theme.spacing.lg,
                             justifyContent: "center",
                             alignItems: "center",
                             borderRadius: theme.spacing.lg / 2,
-                            backgroundColor: "rgba(255, 122, 83, 0.7)",
                         }}
                         >
                         <MaterialIcons
@@ -165,7 +165,7 @@ export default function Tenants() {
                             size={theme.spacing.md}
                             color={theme.colors.text}
                         />
-                        </View>
+                        </PressableSurface>
                     </MenuView>
                 </View>
                 ) : (

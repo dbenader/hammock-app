@@ -1,4 +1,4 @@
-import PaymentRule from "./PaymentRule";
+import PaymentPlan from "./PaymentPlan";
 import Tenant from "./Tenant";
 
 type RentGroupSummary = {
@@ -7,7 +7,7 @@ type RentGroupSummary = {
     active: boolean,
     createdAt: string,
     tenants: Tenant[],
-    paymentRule: PaymentRule
+    paymentPlan: PaymentPlan
 }
 
 export default RentGroupSummary;

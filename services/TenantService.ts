@@ -1,5 +1,7 @@
 
+import CreateTenantRequest from "@/types/CreateTenantRequest";
 import TenantListItemData from "@/types/TenantListItemData";
+import { TenantWithPaymentPlan } from "@/types/TenantWithPaymentPlan";
 import api from "./api";
 
 const TenantService = {
@@ -10,6 +12,10 @@ const TenantService = {
             }
         });
 
+        return response.data;
+    },
+    createTenantWithPaymentPlan: async (request: CreateTenantRequest) => {
+        let response = await api.post<TenantWithPaymentPlan>('/tenant', request);
         return response.data;
     }
 }

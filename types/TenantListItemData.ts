@@ -1,8 +1,9 @@
 import RentGroupSummary from "./RentGroupSummary";
-import { TenantWithPaymentRule } from "./TenantWithPaymentRule";
+import { TenantWithPaymentPlan } from "./TenantWithPaymentPlan";
+
 
 type TenantListItemData =
-  | { type: 'TENANT'; tenant: TenantWithPaymentRule }
+  | { type: 'TENANT'; tenant: TenantWithPaymentPlan }
   | { type: 'GROUP'; group: RentGroupSummary };
 
 export default TenantListItemData;

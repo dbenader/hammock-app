@@ -42,7 +42,7 @@ export const ThemedPressable = ({
         disabled={rest.disabled || loading}
         style={({ pressed }) => [
           {
-            backgroundColor: rest.disabled ? '#f1f1f1' : 'rgba(255, 122, 83, 0.7)',
+            backgroundColor: rest.disabled ? '#f1f1f1' : theme.colors.primary,
             borderRadius: 8,
             borderColor: '#4b2810',
             borderWidth: 2,

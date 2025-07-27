@@ -27,6 +27,7 @@ export default function NewRentGroupModal({ visible, onCreateGroup, close }: Pro
     const [email, setEmail] = useState('');
     const [amount, setAmount] = useState<string>('');
     const [dueDate, setDueDate] = useState<Date>(new Date());
+    const [endDate, setEndDate] = useState<Date>(new Date());
     const [frequency, setFrequency] = useState<string>('monthly');
 
     const theme = useAppTheme();
@@ -87,6 +88,19 @@ export default function NewRentGroupModal({ visible, onCreateGroup, close }: Pro
                 </View>
 
                 <ScrollView style={styles.content} contentContainerStyle={{gap: theme.spacing.md, paddingBottom: 100}}>
+                    <ThemedText variant="bold" size={theme.fontSizes.large}>Group details</ThemedText>
+                    <View>
+                        <InputField
+                            label="Name"
+                            value={name}
+                            type="text"
+                            onChange={setName}
+                            placeholder="APT 4T"
+                            position='single'
+                        />
+                    </View>
+
+                    
                     <ThemedText variant="bold" size={theme.fontSizes.large}>Tenants</ThemedText>
                     <View>
                         <InputField
@@ -115,7 +129,7 @@ export default function NewRentGroupModal({ visible, onCreateGroup, close }: Pro
 
 
 
-                    <ThemedText variant="bold" size={theme.fontSizes.large}>Payment details</ThemedText>
+                    <ThemedText variant="bold" size={theme.fontSizes.large}>Payment plan</ThemedText>
                     <View>
                         <InputField
                             label="Amount"
@@ -150,6 +164,18 @@ export default function NewRentGroupModal({ visible, onCreateGroup, close }: Pro
                         />
                     </View>
 
+
+                    <View style={{gap: theme.spacing.xs}}>
+                        <ThemedText variant="regular" color="#888" size={theme.fontSizes.xsmall}>Optional</ThemedText>
+                        <InputField
+                            label="End date"
+                            value={dueDate}
+                            type="date"
+                            onChange={setDueDate}
+                            position='single'
+                        />
+                    </View>
+
                     <View style={{ height: 60 }}>
                         {newTenants.length > 0 && (
                             <View style={styles.avatars}>
@@ -163,14 +189,7 @@ export default function NewRentGroupModal({ visible, onCreateGroup, close }: Pro
                         style={{ height: 55 }}
                         onPress={() => {
                             if (newTenants.length > 0) {
-                                onCreateGroup(newTenants.map(t => ({
-                                    id: '', // backend can generate
-                                    userId: '',
-                                    name: t.name,
-                                    email: t.email,
-                                    createdAt: new Date().toISOString(),
-                                    paymentRule: null
-                                })));
+                                // TODO
                                 close();
                             }
                         }}

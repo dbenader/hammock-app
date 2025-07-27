@@ -1,7 +1,7 @@
 import { useAppTheme } from "@/hooks/useAppTheme";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { MenuView } from '@react-native-menu/menu';
-import { StyleSheet, TextInput, View } from "react-native";
+import { StyleSheet, TextInput, TextInputProps, View } from "react-native";
 import { PressableSurface } from "./PressableSurface";
 import { ThemedText } from "./ThemedText";
 
@@ -13,10 +13,10 @@ type CommonProps = {
 type TextInputField = CommonProps & {
   type: 'text';
   value: string;
-  onChange: (val: string) => void;
+  onChangeText: (val: string) => void;
   placeholder?: string,
   onBlur?: ()=>void
-};
+} & TextInputProps;
 
 type DateInputField = CommonProps & {
   type: 'date';
@@ -32,10 +32,9 @@ type SwitchInputField = CommonProps & {
 
 type MenuInputField = CommonProps & {
     type: 'menu';
-    options: string[];
+    options: {label: string, value: string }[];
     value: string;
     onChange: (val: string) => void;
-
 }
 
 type InputFieldProps = (TextInputField | DateInputField | SwitchInputField | MenuInputField) & {
@@ -47,7 +46,7 @@ export default function InputField(props: InputFieldProps) {
     const theme = useAppTheme();
     const styles = StyleSheet.create({
         root: {
-            backgroundColor: '#f3e3c8',
+            backgroundColor: theme.colors.tint,
             height: theme.spacing.xl,
             flexDirection: 'row',
             alignItems: 'center',
@@ -75,9 +74,9 @@ export default function InputField(props: InputFieldProps) {
 
             {props.type === 'text' && (
                 <TextInput value={props.value}
-                onChangeText={props.onChange}
+                onChangeText={props.onChangeText}
                 placeholder={props.placeholder ?? ''}
-                style={{fontFamily: theme.fonts.regular.fontFamily, fontSize: theme.fontSizes.small}} placeholderTextColor='#888'/>
+                style={{fontFamily: theme.fonts.regular.fontFamily, fontSize: theme.fontSizes.small, flex: 1, textAlign: 'right'}} placeholderTextColor='#888'/>
 
             )}
 
@@ -94,14 +93,14 @@ export default function InputField(props: InputFieldProps) {
 
             {props.type === 'menu' && (
                 <MenuView
-                    title={props.label}
+                    title=''
                     onPressAction={({ nativeEvent }) => {
+                        console.log(nativeEvent)
                     props.onChange(nativeEvent.event); // `event` is the id you assign below
                     }}
                     actions={props.options.map((option) => ({
-                    id: option,
-                    title: option,
-                    state: option === props.value ? 'on' : 'off',
+                    id: option.value,
+                    title: option.label,
                     }))}
                 >   
                     <PressableSurface style={{paddingVertical: 5, paddingHorizontal: 8, borderRadius: theme.borderRadius}}>

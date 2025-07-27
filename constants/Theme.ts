@@ -1,6 +1,11 @@
 import { Theme as NavTheme } from '@react-navigation/native';
 
 export type AppTheme = NavTheme & {
+    colors: NavTheme['colors'] & {
+      textSecondary: string;
+      accent: string;
+      tint: string;
+    };
     spacing: {
       xs: number;
       sm: number;
@@ -29,12 +34,15 @@ export type AppTheme = NavTheme & {
 export const lightTheme: AppTheme = {
     dark: false,
     colors: {
-      primary: '#ff7a53',
-      background: '#f9eedb',
-      card: '#ffffff',
+      primary: 'rgba(255, 122, 83, 0.7)',
+      background: '#FFF',
+      card: '#f9eedb',
       text: '#4b2810',
-      border: '#e0e0e0',
+      border: '#e7c9ab',
       notification: '#e28483',
+      tint: 'rgba(255, 122, 83, 0.08)',
+      textSecondary: '#835d46',
+      accent: '#f8b500'
     },
     tint: 'rgba(239,186,110,0.5)',
     fonts: {
@@ -75,6 +83,9 @@ export const darkTheme: AppTheme = {
       text: '#f1f1f1',
       border: '#3a3a3a',
       notification: '#91b793',
+      accent: '',
+      textSecondary: '',
+      tint: ''
     },
     tint: '#fff',
     fonts: {

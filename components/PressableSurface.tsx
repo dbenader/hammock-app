@@ -46,7 +46,7 @@ export const PressableSurface = ({ children, onPress, style }: Props) => {
         onPressOut={handlePressOut}
         style={({ pressed }) => [
           {
-            backgroundColor: 'rgba(255, 122, 83, 0.7)',
+            backgroundColor: theme.colors.primary,
           },
           style,
         ]}

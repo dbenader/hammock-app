@@ -1,4 +1,4 @@
-type PaymentRule = {
+type PaymentPlan = {
     id: string;
   rentGroupId: string;
   amountCents: number;
@@ -9,4 +9,4 @@ type PaymentRule = {
   createdAt: string;
 }
 
-export default PaymentRule;
+export default PaymentPlan;

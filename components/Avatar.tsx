@@ -18,9 +18,7 @@ export default function Avatar({name, size, group=false}: Props) {
 
     const styles = StyleSheet.create({
         root: {
-            backgroundColor: theme.colors.card,
-            borderWidth: 1,
-            borderColor: theme.colors.border,
+            backgroundColor: theme.colors.tint,
             borderRadius: size /2,
             height: size,
             width: size,

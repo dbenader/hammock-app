@@ -1,3 +1,4 @@
+import { PressableSurface } from "@/components/PressableSurface";
 import { ThemedText } from "@/components/ThemedText";
 import TransactionListItem from "@/components/TransactionListItem";
 import { useAppTheme } from "@/hooks/useAppTheme";
@@ -76,10 +77,10 @@ export default function Transactions() {
                         title: 'All Time'
                     }
                 ]}>
-                    <View style={{flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: 'rgba(255, 122, 83, 0.7)', paddingHorizontal: 8, paddingVertical: 3, borderRadius: theme.borderRadius}}>
+                    <PressableSurface style={{flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 8, paddingVertical: 3, borderRadius: theme.borderRadius}}>
                         <ThemedText variant="bold">Monthly</ThemedText>
                         <FontAwesome name="caret-down" size={20} color="black" />
-                    </View>
+                    </PressableSurface>
                 </MenuView>
                 <View style={{alignItems:'flex-end', top: -5}}>
                     <ThemedText variant="bold" size={theme.fontSizes.xlarge}>{formatUSD(total)}</ThemedText>

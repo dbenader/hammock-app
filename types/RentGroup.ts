@@ -1,7 +1,7 @@
 type RentGroup = {
     id: string;
     userId: string;
-    name?: string;
+    name: string;
     active: boolean;
     createdAt: string;
 }
